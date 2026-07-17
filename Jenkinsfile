@@ -22,22 +22,27 @@ pipeline {
             steps {
                 script {
 
-                    def services = [
-                        [name: 'auth', context: 'backend/authService'],
-                        [name: 'admin', context: 'backend/adminService'],
-                        [name: 'chat', context: 'backend/chatService'],
-                        [name: 'streaming', context: 'backend/streamingService'],
-                        [name: 'frontend', context: 'frontend']
+                    def backendServices = [
+                        [name: 'auth', dockerfile: 'backend/authService/Dockerfile'],
+                        [name: 'admin', dockerfile: 'backend/adminService/Dockerfile'],
+                        [name: 'chat', dockerfile: 'backend/chatService/Dockerfile'],
+                        [name: 'streaming', dockerfile: 'backend/streamingService/Dockerfile']
                     ]
 
-                    services.each { service ->
+                    backendServices.each { service ->
                         sh """
                             docker build \
                               -t streamingapp-${service.name}:latest \
-                              ${service.context}
+                              -f ${service.dockerfile} \
+                              backend
                         """
                     }
 
+                    sh """
+                        docker build \
+                          -t streamingapp-frontend:latest \
+                          frontend
+                    """
                 }
             }
         }
@@ -46,6 +51,16 @@ pipeline {
             steps {
                 sh 'docker images | grep streamingapp'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Docker images built successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }
