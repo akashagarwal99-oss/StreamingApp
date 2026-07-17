@@ -6,11 +6,9 @@ metadata:
   namespace: {{ .Values.namespace }}
 
 data:
-  MONGO_HOST: mongodb
-  MONGO_PORT: "{{ .Values.mongodb.port }}"
-  MONGO_DB: "{{ .Values.mongodb.database }}"
+  MONGO_URI: "mongodb://mongodb:27017/streamingapp"
 
-  AUTH_SERVICE_URL: http://auth-service:3001
-  STREAMING_SERVICE_URL: http://streaming-service:3002
-  ADMIN_SERVICE_URL: http://admin-service:3003
-  CHAT_SERVICE_URL: http://chat-service:3004
+  AUTH_SERVICE_URL: "http://auth-service:3001"
+  STREAMING_SERVICE_URL: "http://streaming-service:3002"
+  ADMIN_SERVICE_URL: "http://admin-service:3003"
+  CHAT_SERVICE_URL: "http://chat-service:3004"
