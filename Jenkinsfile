@@ -18,38 +18,95 @@ pipeline {
             }
         }
 
+        stage('Inspect Workspace') {
+            steps {
+                sh '''
+                    echo "================ CURRENT DIRECTORY ================"
+                    pwd
+
+                    echo ""
+                    echo "================ ROOT FILES ================"
+                    ls -la
+
+                    echo ""
+                    echo "================ BACKEND ================"
+                    ls -la backend
+
+                    echo ""
+                    echo "================ AUTH SERVICE ================"
+                    ls -la backend/authService
+
+                    echo ""
+                    echo "================ ADMIN SERVICE ================"
+                    ls -la backend/adminService
+
+                    echo ""
+                    echo "================ CHAT SERVICE ================"
+                    ls -la backend/chatService
+
+                    echo ""
+                    echo "================ STREAMING SERVICE ================"
+                    ls -la backend/streamingService
+
+                    echo ""
+                    echo "================ PACKAGE.JSON FILES ================"
+                    find . -name package.json
+
+                    echo ""
+                    echo "================ DOCKERFILES ================"
+                    find . -name Dockerfile
+                '''
+            }
+        }
+
         stage('Build Docker Images') {
             steps {
                 script {
 
-                    def backendServices = [
-                        [name: 'auth', dockerfile: 'backend/authService/Dockerfile'],
-                        [name: 'admin', dockerfile: 'backend/adminService/Dockerfile'],
-                        [name: 'chat', dockerfile: 'backend/chatService/Dockerfile'],
-                        [name: 'streaming', dockerfile: 'backend/streamingService/Dockerfile']
-                    ]
-
-                    backendServices.each { service ->
-                        sh """
-                            docker build \
-                              -t streamingapp-${service.name}:latest \
-                              -f ${service.dockerfile} \
-                              backend
-                        """
-                    }
-
-                    sh """
+                    // Auth Service
+                    sh '''
                         docker build \
-                          -t streamingapp-frontend:latest \
-                          frontend
-                    """
+                            -t streamingapp-auth:latest \
+                            backend/authService
+                    '''
+
+                    // Admin Service
+                    sh '''
+                        docker build \
+                            -t streamingapp-admin:latest \
+                            -f backend/adminService/Dockerfile \
+                            backend
+                    '''
+
+                    // Chat Service
+                    sh '''
+                        docker build \
+                            -t streamingapp-chat:latest \
+                            -f backend/chatService/Dockerfile \
+                            backend
+                    '''
+
+                    // Streaming Service
+                    sh '''
+                        docker build \
+                            -t streamingapp-streaming:latest \
+                            -f backend/streamingService/Dockerfile \
+                            backend
+                    '''
+
+                    // Frontend
+                    sh '''
+                        docker build \
+                            -t streamingapp-frontend:latest \
+                            frontend
+                    '''
                 }
             }
         }
 
         stage('List Images') {
             steps {
-                sh 'docker images | grep streamingapp'
+                sh 'docker images | grep streamingapp || true'
             }
         }
     }
@@ -61,6 +118,10 @@ pipeline {
 
         failure {
             echo 'Pipeline failed.'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
