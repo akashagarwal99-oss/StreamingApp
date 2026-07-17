@@ -1,0 +1,63 @@
+namespace: streamingapp
+
+replicaCount: 1
+
+images:
+  auth:
+    repository: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth
+    tag: latest
+
+  admin:
+    repository: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin
+    tag: latest
+
+  chat:
+    repository: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat
+    tag: latest
+
+  streaming:
+    repository: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming
+    tag: latest
+
+  frontend:
+    repository: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend
+    tag: latest
+
+mongodb:
+  image: mongo:6
+
+  port: 27017
+
+  database: streamingapp
+
+  storage:
+    size: 2Gi
+
+  persistence:
+    enabled: true
+
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+service:
+  auth: 3001
+  streaming: 3002
+  admin: 3003
+  chat: 3004
+  frontend: 80
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+jwtSecret: change-me
