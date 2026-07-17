@@ -1,25 +1,21 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = 'ap-south-1'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Verify AWS Credentials') {
             steps {
-                echo 'Repository cloned successfully!'
-            }
-        }
-
-        stage('Verify Tools') {
-            steps {
-                sh 'docker --version'
-                sh 'aws --version'
-                sh 'kubectl version --client'
-                sh 'helm version'
-            }
-        }
-
-        stage('Success') {
-            steps {
-                echo 'Jenkins Pipeline is working!'
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-ecr-creds']
+                ]) {
+                    sh '''
+                        aws sts get-caller-identity
+                    '''
+                }
             }
         }
     }
