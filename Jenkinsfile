@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+    }
+
     environment {
         AWS_REGION = 'ap-south-1'
     }
@@ -11,9 +15,11 @@ pipeline {
             steps {
                 withCredentials([
                     [$class: 'AmazonWebServicesCredentialsBinding',
-                     credentialsId: 'aws-ecr-creds']
+                    credentialsId: 'aws-ecr-creds']
                 ]) {
-                    sh 'aws sts get-caller-identity'
+                    sh '''
+                    aws sts get-caller-identity
+                    '''
                 }
             }
         }
@@ -21,107 +27,115 @@ pipeline {
         stage('Inspect Workspace') {
             steps {
                 sh '''
-                    echo "================ CURRENT DIRECTORY ================"
-                    pwd
+                echo "========== Current Directory =========="
+                pwd
 
-                    echo ""
-                    echo "================ ROOT FILES ================"
-                    ls -la
+                echo ""
+                echo "========== Root =========="
+                ls -la
 
-                    echo ""
-                    echo "================ BACKEND ================"
-                    ls -la backend
+                echo ""
+                echo "========== Backend =========="
+                ls -la backend
 
-                    echo ""
-                    echo "================ AUTH SERVICE ================"
-                    ls -la backend/authService
+                echo ""
+                echo "========== Package.json Files =========="
+                find . -name package.json
 
-                    echo ""
-                    echo "================ ADMIN SERVICE ================"
-                    ls -la backend/adminService
-
-                    echo ""
-                    echo "================ CHAT SERVICE ================"
-                    ls -la backend/chatService
-
-                    echo ""
-                    echo "================ STREAMING SERVICE ================"
-                    ls -la backend/streamingService
-
-                    echo ""
-                    echo "================ PACKAGE.JSON FILES ================"
-                    find . -name package.json
-
-                    echo ""
-                    echo "================ DOCKERFILES ================"
-                    find . -name Dockerfile
+                echo ""
+                echo "========== Dockerfiles =========="
+                find . -name Dockerfile
                 '''
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Cleanup Docker Cache') {
             steps {
-                script {
+                sh '''
+                echo "Cleaning unused Docker cache..."
 
-                    // Auth Service
-                    sh '''
-                        docker build \
-                            -t streamingapp-auth:latest \
-                            backend/authService
-                    '''
+                docker builder prune -f || true
+                docker image prune -f || true
 
-                    // Admin Service
-                    sh '''
-                        docker build \
-                            -t streamingapp-admin:latest \
-                            -f backend/adminService/Dockerfile \
-                            backend
-                    '''
+                docker system df
+                '''
+            }
+        }
 
-                    // Chat Service
-                    sh '''
-                        docker build \
-                            -t streamingapp-chat:latest \
-                            -f backend/chatService/Dockerfile \
-                            backend
-                    '''
+        stage('Build Auth Image') {
+            steps {
+                sh '''
+                docker build \
+                  -t streamingapp-auth:latest \
+                  backend/authService
+                '''
+            }
+        }
 
-                    // Streaming Service
-                    sh '''
-                        docker build \
-                            -t streamingapp-streaming:latest \
-                            -f backend/streamingService/Dockerfile \
-                            backend
-                    '''
+        stage('Build Admin Image') {
+            steps {
+                sh '''
+                docker build \
+                  -t streamingapp-admin:latest \
+                  -f backend/adminService/Dockerfile \
+                  backend
+                '''
+            }
+        }
 
-                    // Frontend
-                    sh '''
-                        docker build \
-                            -t streamingapp-frontend:latest \
-                            frontend
-                    '''
-                }
+        stage('Build Chat Image') {
+            steps {
+                sh '''
+                docker build \
+                  -t streamingapp-chat:latest \
+                  -f backend/chatService/Dockerfile \
+                  backend
+                '''
+            }
+        }
+
+        stage('Build Streaming Image') {
+            steps {
+                sh '''
+                docker build \
+                  -t streamingapp-streaming:latest \
+                  -f backend/streamingService/Dockerfile \
+                  backend
+                '''
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                sh '''
+                export NODE_OPTIONS=--max-old-space-size=1024
+
+                docker build \
+                  -t streamingapp-frontend:latest \
+                  frontend
+                '''
             }
         }
 
         stage('List Images') {
             steps {
-                sh 'docker images | grep streamingapp || true'
+                sh '''
+                echo ""
+                echo "========== Docker Images =========="
+
+                docker images | grep streamingapp || true
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Docker images built successfully!'
+            echo 'All Docker images built successfully!'
         }
 
         failure {
             echo 'Pipeline failed.'
-        }
-
-        always {
-            cleanWs()
         }
     }
 }
