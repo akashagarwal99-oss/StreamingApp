@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: streaming-service
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: streaming-service
+
+  template:
+    metadata:
+      labels:
+        app: streaming-service
+
+    spec:
+      containers:
+        - name: streaming-service
+
+          image: "{{ .Values.images.streaming.repository }}:{{ .Values.images.streaming.tag }}"
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: {{ .Values.service.streaming }}
+
+          env:
+            - name: PORT
+              value: "{{ .Values.service.streaming }}"
+
+          envFrom:
+            - configMapRef:
+                name: streamingapp-config
+
+            - secretRef:
+                name: streamingapp-secret
+
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: {{ .Values.service.streaming }}
+
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: {{ .Values.service.streaming }}
+
+            initialDelaySeconds: 30
+            periodSeconds: 20
+
+---
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: streaming-service
+  namespace: {{ .Values.namespace }}
+
+spec:
+  selector:
+    app: streaming-service
+
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.streaming }}
+      targetPort: {{ .Values.service.streaming }}
+
+  type: ClusterIP
