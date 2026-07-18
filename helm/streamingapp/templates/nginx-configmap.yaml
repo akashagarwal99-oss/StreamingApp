@@ -9,25 +9,48 @@ data:
     server {
       listen 80;
 
+      # Frontend
       location / {
         proxy_pass http://frontend-service;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
       }
 
-      location /api/ {
-        proxy_pass http://auth-service:3001/api/;
+      # Auth Service
+      location /api {
+        proxy_pass http://auth-service:3001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
       }
 
-      location /api/admin/ {
-        proxy_pass http://admin-service:3003/api/admin/;
+      # Admin Service
+      location /api/admin {
+        proxy_pass http://admin-service:3003;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
       }
 
-      location /api/chat/ {
-        proxy_pass http://chat-service:3004/api/chat/;
+      # Chat Service
+      location /api/chat {
+        proxy_pass http://chat-service:3004;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
       }
 
-      location /api/streaming/ {
-        proxy_pass http://streaming-service:3002/api/;
+      # Streaming Service
+      location /api/streaming {
+        proxy_pass http://streaming-service:3002;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
       }
     }
