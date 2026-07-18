@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: frontend
   namespace: {{ .Values.namespace }}
 
 spec:
-  replicas: {{ .Values.frontend.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
 
   selector:
     matchLabels:
@@ -19,26 +18,25 @@ spec:
 
     spec:
       containers:
-      - name: frontend
-        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
-        imagePullPolicy: Always
+        - name: frontend
+          image: "{{ .Values.images.frontend.repository }}:{{ .Values.images.frontend.tag }}"
+          imagePullPolicy: Always
 
-        ports:
-        - containerPort: 80
+          ports:
+            - containerPort: 80
 
-        resources:
-          requests:
-            cpu: {{ .Values.frontend.resources.requests.cpu }}
-            memory: {{ .Values.frontend.resources.requests.memory }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
 
-          limits:
-            cpu: {{ .Values.frontend.resources.limits.cpu }}
-            memory: {{ .Values.frontend.resources.limits.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
 
 ---
 apiVersion: v1
 kind: Service
-
 metadata:
   name: frontend-service
   namespace: {{ .Values.namespace }}
@@ -48,8 +46,8 @@ spec:
     app: frontend
 
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: {{ .Values.service.frontend }}
+      targetPort: 80
 
   type: ClusterIP
