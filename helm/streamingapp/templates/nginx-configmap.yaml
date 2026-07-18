@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: {{ .Values.namespace }}
+
+data:
+  default.conf: |
+    server {
+      listen 80;
+
+      location / {
+        proxy_pass http://frontend-service;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+
+      location /api/ {
+        proxy_pass http://auth-service:3001/api/;
+      }
+
+      location /api/admin/ {
+        proxy_pass http://admin-service:3003/api/admin/;
+      }
+
+      location /api/chat/ {
+        proxy_pass http://chat-service:3004/api/chat/;
+      }
+
+      location /api/streaming/ {
+        proxy_pass http://streaming-service:3002/api/;
+      }
+    }
