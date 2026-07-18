@@ -126,6 +126,12 @@ pipeline {
                 export NODE_OPTIONS=--max-old-space-size=1024
 
                 docker build \
+                    --build-arg REACT_APP_AUTH_API_URL=/api \
+                    --build-arg REACT_APP_STREAMING_API_URL=/api/streaming \
+                    --build-arg REACT_APP_STREAMING_PUBLIC_URL=/api/streaming \
+                    --build-arg REACT_APP_ADMIN_API_URL=/api/admin \
+                    --build-arg REACT_APP_CHAT_API_URL=/api/chat \
+                    --build-arg REACT_APP_CHAT_SOCKET_URL=/api/chat \
                     -t streamingapp-frontend:latest \
                     frontend
                 '''
@@ -239,6 +245,30 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Amazon EKS') {
+            steps {
+                sh '''
+                echo "Deploying application to Amazon EKS..."
+
+                helm upgrade --install streamingapp \
+                    helm/streamingapp \
+                    -n streamingapp
+
+                echo "Waiting for deployments..."
+
+                kubectl rollout status deployment/mongodb -n streamingapp
+                kubectl rollout status deployment/auth-service -n streamingapp
+                kubectl rollout status deployment/admin-service -n streamingapp
+                kubectl rollout status deployment/chat-service -n streamingapp
+                kubectl rollout status deployment/streaming-service -n streamingapp
+                kubectl rollout status deployment/frontend -n streamingapp
+                kubectl rollout status deployment/nginx -n streamingapp
+
+                echo "All deployments completed successfully."
+                '''
+            }
+        }
     }
 
     post {
@@ -246,6 +276,7 @@ pipeline {
             echo '======================================'
             echo 'CI Pipeline completed successfully!'
             echo 'All Docker images have been pushed to Amazon ECR.'
+            echo 'Application deployed successfully to Amazon EKS.'
             echo '======================================'
         }
 
