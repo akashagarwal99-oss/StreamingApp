@@ -250,9 +250,9 @@ pipeline {
             steps {
                 withCredentials([
                     [$class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credentials']
+                    credentialsId: 'aws-ecr-creds']
                 ]) {
-                   sh '''
+                    sh '''
                     echo "Deploying application to Amazon EKS..."
 
                     aws eks update-kubeconfig \
