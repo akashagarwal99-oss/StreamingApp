@@ -257,7 +257,7 @@ pipeline {
 
                     aws eks update-kubeconfig \
                         --region ${AWS_REGION} \
-                        --name streamingapp-eks-cluster
+                        --name streamingapp-cluster
 
                     kubectl get nodes
 
