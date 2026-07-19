@@ -248,25 +248,36 @@ pipeline {
 
         stage('Deploy to Amazon EKS') {
             steps {
-                sh '''
-                echo "Deploying application to Amazon EKS..."
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials']
+                ]) {
+                   sh '''
+                    echo "Deploying application to Amazon EKS..."
 
-                helm upgrade --install streamingapp \
-                    helm/streamingapp \
-                    -n streamingapp
+                    aws eks update-kubeconfig \
+                        --region ${AWS_REGION} \
+                        --name streamingapp-eks-cluster
 
-                echo "Waiting for deployments..."
+                    kubectl get nodes
 
-                kubectl rollout status deployment/mongodb -n streamingapp
-                kubectl rollout status deployment/auth-service -n streamingapp
-                kubectl rollout status deployment/admin-service -n streamingapp
-                kubectl rollout status deployment/chat-service -n streamingapp
-                kubectl rollout status deployment/streaming-service -n streamingapp
-                kubectl rollout status deployment/frontend -n streamingapp
-                kubectl rollout status deployment/nginx -n streamingapp
+                    helm upgrade --install streamingapp\
+                        helm/streamingapp \
+                        -n streamingapp
 
-                echo "All deployments completed successfully."
-                '''
+                    echo "Waiting for deployments..."
+
+                    kubectl rollout status deployment/mongodb -n streamingapp
+                    kubectl rollout status deployment/auth-service -n streamingapp
+                    kubectl rollout status deployment/admin-service -n streamingapp
+                    kubectl rollout status deployment/chat-service -n streamingapp
+                    kubectl rollout status deployment/streaming-service -n streamingapp
+                    kubectl rollout status deployment/frontend -n streamingapp
+                    kubectl rollout status deployment/nginx -n streamingapp
+
+                    echo "All deployments completed successfully."
+                    '''
+                }
             }
         }
     }
