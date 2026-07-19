@@ -1,0 +1,3019 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-07-19T12:04:29Z"
+    generateName: admin-service-5859fdd9c8-
+    generation: 1
+    labels:
+      app: admin-service
+      pod-template-hash: 5859fdd9c8
+    name: admin-service-5859fdd9c8-czn2k
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: admin-service-5859fdd9c8
+      uid: fbc26000-a44e-460f-b047-b8798894b156
+    resourceVersion: "436460"
+    uid: 91b8276d-12ee-449c-88ee-9e0bd5e1121a
+  spec:
+    containers:
+    - env:
+      - name: PORT
+        value: "3003"
+      envFrom:
+      - configMapRef:
+          name: streamingapp-config
+      - secretRef:
+          name: streamingapp-secret
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3003
+          scheme: HTTP
+        initialDelaySeconds: 30
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: admin-service
+      ports:
+      - containerPort: 3003
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3003
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5kml8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-83-205.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-5kml8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:33Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:29Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:45Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:45Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:29Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://7772cf3c51dc1ab61401dfa2e7dbe685ba8a0f1f7a618201544d1a3e479b01e8
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin:latest
+      imageID: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin@sha256:ae58e7a30bd14b3fe4508b0001b07faedb6ad2b5f2250843a470f24b4d4c96ac
+      lastState: {}
+      name: admin-service
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-19T12:04:33Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5kml8
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.83.205
+    hostIPs:
+    - ip: 192.168.83.205
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.64.7
+    podIPs:
+    - ip: 192.168.64.7
+    qosClass: Burstable
+    startTime: "2026-07-19T12:04:29Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/restartedAt: "2026-07-17T21:05:06Z"
+    creationTimestamp: "2026-07-17T21:05:06Z"
+    generateName: auth-service-8469d7467-
+    generation: 1
+    labels:
+      app: auth-service
+      pod-template-hash: 8469d7467
+    name: auth-service-8469d7467-zq6cz
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: auth-service-8469d7467
+      uid: a8336b1e-3884-4297-abb0-1d2fdc987730
+    resourceVersion: "56524"
+    uid: eab69e9a-151b-4eba-aebc-32756520d8a7
+  spec:
+    containers:
+    - env:
+      - name: PORT
+        value: "3001"
+      envFrom:
+      - configMapRef:
+          name: streamingapp-config
+      - secretRef:
+          name: streamingapp-secret
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 3001
+          scheme: HTTP
+        initialDelaySeconds: 30
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: auth-service
+      ports:
+      - containerPort: 3001
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 3001
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5rmqv
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-53-110.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-5rmqv
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:05:08Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:05:06Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:05:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:05:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:05:06Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://73d35d3227eac8254a4fb38e3b6f3ee361de4b09aba5f2441158c9c46c66f752
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+      imageID: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth@sha256:3e5678067bee6d1cf7fd7228d125a03da00b1493c48020a0dcd193c877794294
+      lastState: {}
+      name: auth-service
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-17T21:05:07Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5rmqv
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.53.110
+    hostIPs:
+    - ip: 192.168.53.110
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.48.96
+    podIPs:
+    - ip: 192.168.48.96
+    qosClass: Burstable
+    startTime: "2026-07-17T21:05:06Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-07-19T12:04:19Z"
+    generateName: chat-service-7f67c6cd67-
+    generation: 1
+    labels:
+      app: chat-service
+      pod-template-hash: 7f67c6cd67
+    name: chat-service-7f67c6cd67-fk5wj
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: chat-service-7f67c6cd67
+      uid: 921a308d-d1d4-453a-8425-c6335b4f55d2
+    resourceVersion: "436443"
+    uid: 69fc13b1-8052-4d1f-8519-81bd4ae93a55
+  spec:
+    containers:
+    - env:
+      - name: PORT
+        value: "3004"
+      envFrom:
+      - configMapRef:
+          name: streamingapp-config
+      - secretRef:
+          name: streamingapp-secret
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3004
+          scheme: HTTP
+        initialDelaySeconds: 30
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: chat-service
+      ports:
+      - containerPort: 3004
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3004
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7fbtz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-83-205.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-7fbtz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:28Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:40Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:40Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-19T12:04:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://ae6c0fd2e168b21630526b545c5f1e88afda4e515a558d7405f23a71f5796825
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat:latest
+      imageID: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat@sha256:dff20525cae8708d6d06afc570de606e59a35e700f824207daa96cab7fefdf57
+      lastState: {}
+      name: chat-service
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-19T12:04:27Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7fbtz
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.83.205
+    hostIPs:
+    - ip: 192.168.83.205
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.83.126
+    podIPs:
+    - ip: 192.168.83.126
+    qosClass: Burstable
+    startTime: "2026-07-19T12:04:19Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-07-18T13:26:51Z"
+    generateName: frontend-5884794d54-
+    generation: 1
+    labels:
+      app: frontend
+      pod-template-hash: 5884794d54
+    name: frontend-5884794d54-7sq2d
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: frontend-5884794d54
+      uid: 0eca7d56-10e2-4cc3-92ca-a9735cee837a
+    resourceVersion: "213472"
+    uid: 26128796-1ff8-4ad4-ab04-a8f08b803ebc
+  spec:
+    containers:
+    - image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend:latest
+      imagePullPolicy: Always
+      name: frontend
+      ports:
+      - containerPort: 80
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qcxts
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-83-205.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-qcxts
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T13:33:30Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T13:33:27Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T13:33:30Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T13:33:30Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T13:33:27Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://d62c6b05e9d42e509d251814ca95be36652119e8982c7cbedee2a18d22aac405
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend:latest
+      imageID: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend@sha256:f82466bb24965d383b13d0abde2b8469dbaf4ddd9ca2aeacdd3e2b9cf90a26a0
+      lastState: {}
+      name: frontend
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-18T13:33:29Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-qcxts
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.83.205
+    hostIPs:
+    - ip: 192.168.83.205
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.93.88
+    podIPs:
+    - ip: 192.168.93.88
+    qosClass: Burstable
+    startTime: "2026-07-18T13:33:27Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-07-17T20:57:48Z"
+    generateName: mongodb-58df9dbc5d-
+    generation: 1
+    labels:
+      app: mongodb
+      pod-template-hash: 58df9dbc5d
+    name: mongodb-58df9dbc5d-wnhgt
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: mongodb-58df9dbc5d
+      uid: bf1bbbee-392c-4b59-8a4e-effd1307b0d1
+    resourceVersion: "55330"
+    uid: c88909c9-31cf-41b6-ae07-409a89fbabce
+  spec:
+    containers:
+    - image: mongo:6
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        successThreshold: 1
+        tcpSocket:
+          port: 27017
+        timeoutSeconds: 1
+      name: mongodb
+      ports:
+      - containerPort: 27017
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        successThreshold: 1
+        tcpSocket:
+          port: 27017
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data/db
+        name: mongodb-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-fj8vq
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-53-110.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: mongodb-storage
+    - name: kube-api-access-fj8vq
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T20:58:03Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T20:57:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T20:58:14Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T20:58:14Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T20:57:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://6bf5abe1bf5eb271581b059d979327a8ac70e355fb478567df4cd03492da0e4f
+      image: docker.io/library/mongo:6
+      imageID: docker.io/library/mongo@sha256:8b6d8f5bbedb25cb73517b65cf99f13aeb75ad5b157a56c479287a840bbad3ac
+      lastState: {}
+      name: mongodb
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-17T20:58:03Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /data/db
+        name: mongodb-storage
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-fj8vq
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.53.110
+    hostIPs:
+    - ip: 192.168.53.110
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.44.147
+    podIPs:
+    - ip: 192.168.44.147
+    qosClass: Burstable
+    startTime: "2026-07-17T20:57:48Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/restartedAt: "2026-07-18T14:31:26Z"
+    creationTimestamp: "2026-07-18T14:31:26Z"
+    generateName: nginx-86c46d7dc6-
+    generation: 1
+    labels:
+      app: nginx
+      pod-template-hash: 86c46d7dc6
+    name: nginx-86c46d7dc6-zwqqg
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: nginx-86c46d7dc6
+      uid: 4261a0fa-43fb-4e7a-af3c-5b88c2ae4eff
+    resourceVersion: "223086"
+    uid: 1c0bac83-805c-443a-b8cb-3dd2a3eff7f7
+  spec:
+    containers:
+    - image: nginx:latest
+      imagePullPolicy: Always
+      name: nginx
+      ports:
+      - containerPort: 80
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/nginx/conf.d
+        name: nginx-config
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-js8bn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-83-205.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: nginx-config
+      name: nginx-config
+    - name: kube-api-access-js8bn
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T14:31:28Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T14:31:26Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T14:31:28Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T14:31:28Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-18T14:31:26Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://54b8da06012dd202d5665fdbaf9b0c624ca2b3503da524378a52fb2834ea987a
+      image: docker.io/library/nginx:latest
+      imageID: docker.io/library/nginx@sha256:5a88c9c45479443d7be2eadc894b4ed0a9801bae03d97a5760ae13b5c2005942
+      lastState: {}
+      name: nginx
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-18T14:31:28Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /etc/nginx/conf.d
+        name: nginx-config
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-js8bn
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.83.205
+    hostIPs:
+    - ip: 192.168.83.205
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.79.80
+    podIPs:
+    - ip: 192.168.79.80
+    qosClass: BestEffort
+    startTime: "2026-07-18T14:31:26Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-07-17T21:14:04Z"
+    generateName: streaming-service-86d97f65ff-
+    generation: 1
+    labels:
+      app: streaming-service
+      pod-template-hash: 86d97f65ff
+    name: streaming-service-86d97f65ff-g7jwf
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: streaming-service-86d97f65ff
+      uid: 4ca2b4b2-cad7-47f0-abe5-a08ed799aa68
+    resourceVersion: "57998"
+    uid: fcffe484-6ca2-4b23-9475-5af5c9d08323
+  spec:
+    containers:
+    - env:
+      - name: PORT
+        value: "3002"
+      envFrom:
+      - configMapRef:
+          name: streamingapp-config
+      - secretRef:
+          name: streamingapp-secret
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3002
+          scheme: HTTP
+        initialDelaySeconds: 30
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: streaming-service
+      ports:
+      - containerPort: 3002
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /api/health
+          port: 3002
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-k6zww
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-53-110.ap-south-1.compute.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-k6zww
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:14:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:14:04Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:14:18Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:14:18Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-17T21:14:04Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: containerd://11be7ddd9a239b9cf18f3d889c86344772827dfe0f4e8d81e79da13d941b22a3
+      image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming:latest
+      imageID: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming@sha256:2232e15367c0a2606b07fec6b0c9000f6f1b8c0240671f0e78e880fc0412f57e
+      lastState: {}
+      name: streaming-service
+      ready: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-07-17T21:14:07Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-k6zww
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.53.110
+    hostIPs:
+    - ip: 192.168.53.110
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.39.113
+    podIPs:
+    - ip: 192.168.39.113
+    qosClass: Burstable
+    startTime: "2026-07-17T21:14:04Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:45:32Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: admin-service
+    namespace: streamingapp
+    resourceVersion: "205703"
+    uid: 59f1e763-54a1-4b2c-aac8-70d749547e05
+  spec:
+    clusterIP: 10.100.90.62
+    clusterIPs:
+    - 10.100.90.62
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 3003
+      protocol: TCP
+      targetPort: 3003
+    selector:
+      app: admin-service
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: auth-service
+    namespace: streamingapp
+    resourceVersion: "51668"
+    uid: 4939adb8-477f-4e9b-9b6f-ce18659911bb
+  spec:
+    clusterIP: 10.100.136.71
+    clusterIPs:
+    - 10.100.136.71
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 3001
+      protocol: TCP
+      targetPort: 3001
+    selector:
+      app: auth-service
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:50:58Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: chat-service
+    namespace: streamingapp
+    resourceVersion: "206596"
+    uid: ec831026-12f4-455e-b268-a7ecf0420569
+  spec:
+    clusterIP: 10.100.147.153
+    clusterIPs:
+    - 10.100.147.153
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 3004
+      protocol: TCP
+      targetPort: 3004
+    selector:
+      app: chat-service
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:26:51Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: frontend-service
+    namespace: streamingapp
+    resourceVersion: "212322"
+    uid: d604c3a8-a54d-464f-b412-15f0036cf157
+  spec:
+    clusterIP: 10.100.31.208
+    clusterIPs:
+    - 10.100.31.208
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: frontend
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: mongodb
+    namespace: streamingapp
+    resourceVersion: "51665"
+    uid: 96597744-19d7-4c1f-80b1-7b558706483c
+  spec:
+    clusterIP: 10.100.118.205
+    clusterIPs:
+    - 10.100.118.205
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      app: mongodb
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:43:02Z"
+    finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: nginx-service
+    namespace: streamingapp
+    resourceVersion: "215082"
+    uid: 7cb8eeca-9740-49c1-a0bc-049d9dbcc239
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.100.175.50
+    clusterIPs:
+    - 10.100.175.50
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - nodePort: 32637
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: nginx
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: a7cb8eeca974049c1a0bc049d9dbcc23-728183941.ap-south-1.elb.amazonaws.com
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T21:14:03Z"
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: streaming-service
+    namespace: streamingapp
+    resourceVersion: "57932"
+    uid: 7b74c52b-89c2-42b4-a591-e9d557366c14
+  spec:
+    clusterIP: 10.100.175.93
+    clusterIPs:
+    - 10.100.175.93
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 3002
+      protocol: TCP
+      targetPort: 3002
+    selector:
+      app: streaming-service
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:45:32Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: admin-service
+    namespace: streamingapp
+    resourceVersion: "436464"
+    uid: f3e11626-06a9-4b41-86a6-e3ca6d47b327
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: admin-service
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: admin-service
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3003"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: admin-service
+          ports:
+          - containerPort: 3003
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-18T12:45:32Z"
+      lastUpdateTime: "2026-07-18T12:45:47Z"
+      message: ReplicaSet "admin-service-5859fdd9c8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-07-19T12:04:45Z"
+      lastUpdateTime: "2026-07-19T12:04:45Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "3"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: auth-service
+    namespace: streamingapp
+    resourceVersion: "56539"
+    uid: ec9fa8b3-ef65-4896-92b6-53e79f24dae5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: auth-service
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-17T21:05:06Z"
+        labels:
+          app: auth-service
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3001"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: auth-service
+          ports:
+          - containerPort: 3001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-17T21:02:21Z"
+      lastUpdateTime: "2026-07-17T21:02:21Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-07-17T20:36:52Z"
+      lastUpdateTime: "2026-07-17T21:05:19Z"
+      message: ReplicaSet "auth-service-8469d7467" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:50:58Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: chat-service
+    namespace: streamingapp
+    resourceVersion: "436447"
+    uid: e6a793ae-2c15-4c53-8605-ccf5b3f356a0
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: chat-service
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: chat-service
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3004"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3004
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: chat-service
+          ports:
+          - containerPort: 3004
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3004
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-18T12:50:58Z"
+      lastUpdateTime: "2026-07-18T12:51:13Z"
+      message: ReplicaSet "chat-service-7f67c6cd67" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-07-19T12:04:40Z"
+      lastUpdateTime: "2026-07-19T12:04:40Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:26:51Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: frontend
+    namespace: streamingapp
+    resourceVersion: "433074"
+    uid: 6192b547-bc5e-4879-8ca3-afbf30e86356
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: frontend
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: frontend
+      spec:
+        containers:
+        - image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend:latest
+          imagePullPolicy: Always
+          name: frontend
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-18T13:26:51Z"
+      lastUpdateTime: "2026-07-18T13:33:30Z"
+      message: ReplicaSet "frontend-5884794d54" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-07-19T11:45:13Z"
+      lastUpdateTime: "2026-07-19T11:45:13Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: mongodb
+    namespace: streamingapp
+    resourceVersion: "55343"
+    uid: 8f677ad2-ed0d-4d53-b095-744990165799
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: mongodb
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: mongodb
+      spec:
+        containers:
+        - image: mongo:6
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: mongodb-storage
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-17T20:58:14Z"
+      lastUpdateTime: "2026-07-17T20:58:14Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-07-17T20:57:48Z"
+      lastUpdateTime: "2026-07-17T20:58:14Z"
+      message: ReplicaSet "mongodb-58df9dbc5d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:43:02Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: nginx
+    namespace: streamingapp
+    resourceVersion: "223102"
+    uid: 86dde402-9933-45a4-8fdf-935c6ea1c50a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: nginx
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-18T14:31:26Z"
+        labels:
+          app: nginx
+      spec:
+        containers:
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: nginx
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: nginx-config
+          name: nginx-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-18T13:43:10Z"
+      lastUpdateTime: "2026-07-18T13:43:10Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-07-18T13:43:02Z"
+      lastUpdateTime: "2026-07-18T14:31:28Z"
+      message: ReplicaSet "nginx-86c46d7dc6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T21:14:03Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: streaming-service
+    namespace: streamingapp
+    resourceVersion: "58002"
+    uid: fc213120-d28b-4ada-9aa4-9568efa82ea7
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: streaming-service
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: streaming-service
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3002"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3002
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: streaming-service
+          ports:
+          - containerPort: 3002
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3002
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-07-17T21:14:18Z"
+      lastUpdateTime: "2026-07-17T21:14:18Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-07-17T21:14:03Z"
+      lastUpdateTime: "2026-07-17T21:14:18Z"
+      message: ReplicaSet "streaming-service-86d97f65ff" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:45:32Z"
+    generation: 1
+    labels:
+      app: admin-service
+      pod-template-hash: 5859fdd9c8
+    name: admin-service-5859fdd9c8
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: admin-service
+      uid: f3e11626-06a9-4b41-86a6-e3ca6d47b327
+    resourceVersion: "436461"
+    uid: fbc26000-a44e-460f-b047-b8798894b156
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: admin-service
+        pod-template-hash: 5859fdd9c8
+    template:
+      metadata:
+        labels:
+          app: admin-service
+          pod-template-hash: 5859fdd9c8
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3003"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-admin:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: admin-service
+          ports:
+          - containerPort: 3003
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3003
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T21:02:08Z"
+    generation: 2
+    labels:
+      app: auth-service
+      pod-template-hash: 7fc97d447d
+    name: auth-service-7fc97d447d
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: auth-service
+      uid: ec9fa8b3-ef65-4896-92b6-53e79f24dae5
+    resourceVersion: "56538"
+    uid: 33009bb9-476f-478b-baae-0aa8f7c34135
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: auth-service
+        pod-template-hash: 7fc97d447d
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-17T21:02:08Z"
+        labels:
+          app: auth-service
+          pod-template-hash: 7fc97d447d
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3001"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: auth-service
+          ports:
+          - containerPort: 3001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "3"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T21:05:06Z"
+    generation: 1
+    labels:
+      app: auth-service
+      pod-template-hash: 8469d7467
+    name: auth-service-8469d7467
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: auth-service
+      uid: ec9fa8b3-ef65-4896-92b6-53e79f24dae5
+    resourceVersion: "56526"
+    uid: a8336b1e-3884-4297-abb0-1d2fdc987730
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: auth-service
+        pod-template-hash: 8469d7467
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-17T21:05:06Z"
+        labels:
+          app: auth-service
+          pod-template-hash: 8469d7467
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3001"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: auth-service
+          ports:
+          - containerPort: 3001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    generation: 2
+    labels:
+      app: auth-service
+      pod-template-hash: d7c575ccf
+    name: auth-service-d7c575ccf
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: auth-service
+      uid: ec9fa8b3-ef65-4896-92b6-53e79f24dae5
+    resourceVersion: "56028"
+    uid: 03140e22-87e9-4fb3-b5a4-2dc48469c72a
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: auth-service
+        pod-template-hash: d7c575ccf
+    template:
+      metadata:
+        labels:
+          app: auth-service
+          pod-template-hash: d7c575ccf
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3001"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-auth:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: auth-service
+          ports:
+          - containerPort: 3001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T12:50:58Z"
+    generation: 1
+    labels:
+      app: chat-service
+      pod-template-hash: 7f67c6cd67
+    name: chat-service-7f67c6cd67
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: chat-service
+      uid: e6a793ae-2c15-4c53-8605-ccf5b3f356a0
+    resourceVersion: "436444"
+    uid: 921a308d-d1d4-453a-8425-c6335b4f55d2
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: chat-service
+        pod-template-hash: 7f67c6cd67
+    template:
+      metadata:
+        labels:
+          app: chat-service
+          pod-template-hash: 7f67c6cd67
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3004"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-chat:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3004
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: chat-service
+          ports:
+          - containerPort: 3004
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3004
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:26:51Z"
+    generation: 3
+    labels:
+      app: frontend
+      pod-template-hash: 5884794d54
+    name: frontend-5884794d54
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: frontend
+      uid: 6192b547-bc5e-4879-8ca3-afbf30e86356
+    resourceVersion: "433073"
+    uid: 0eca7d56-10e2-4cc3-92ca-a9735cee837a
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: frontend
+        pod-template-hash: 5884794d54
+    template:
+      metadata:
+        labels:
+          app: frontend
+          pod-template-hash: 5884794d54
+      spec:
+        containers:
+        - image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-frontend:latest
+          imagePullPolicy: Always
+          name: frontend
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:57:48Z"
+    generation: 1
+    labels:
+      app: mongodb
+      pod-template-hash: 58df9dbc5d
+    name: mongodb-58df9dbc5d
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: mongodb
+      uid: 8f677ad2-ed0d-4d53-b095-744990165799
+    resourceVersion: "55333"
+    uid: bf1bbbee-392c-4b59-8a4e-effd1307b0d1
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: mongodb
+        pod-template-hash: 58df9dbc5d
+    template:
+      metadata:
+        labels:
+          app: mongodb
+          pod-template-hash: 58df9dbc5d
+      spec:
+        containers:
+        - image: mongo:6
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: mongodb-storage
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T20:36:52Z"
+    generation: 2
+    labels:
+      app: mongodb
+      pod-template-hash: 8658d5b597
+    name: mongodb-8658d5b597
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: mongodb
+      uid: 8f677ad2-ed0d-4d53-b095-744990165799
+    resourceVersion: "55341"
+    uid: c600bb18-0e1d-48ce-8f89-142a8ac7e8bf
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: mongodb
+        pod-template-hash: 8658d5b597
+    template:
+      metadata:
+        labels:
+          app: mongodb
+          pod-template-hash: 8658d5b597
+      spec:
+        containers:
+        - image: mongo:6
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-storage
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T13:43:02Z"
+    generation: 2
+    labels:
+      app: nginx
+      pod-template-hash: 59757c97fb
+    name: nginx-59757c97fb
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: nginx
+      uid: 86dde402-9933-45a4-8fdf-935c6ea1c50a
+    resourceVersion: "223099"
+    uid: 3276c0ae-62b2-4cd4-8f41-21f391d68c48
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: nginx
+        pod-template-hash: 59757c97fb
+    template:
+      metadata:
+        labels:
+          app: nginx
+          pod-template-hash: 59757c97fb
+      spec:
+        containers:
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: nginx
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: nginx-config
+          name: nginx-config
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-18T14:31:26Z"
+    generation: 1
+    labels:
+      app: nginx
+      pod-template-hash: 86c46d7dc6
+    name: nginx-86c46d7dc6
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: nginx
+      uid: 86dde402-9933-45a4-8fdf-935c6ea1c50a
+    resourceVersion: "223087"
+    uid: 4261a0fa-43fb-4e7a-af3c-5b88c2ae4eff
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: nginx
+        pod-template-hash: 86c46d7dc6
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-18T14:31:26Z"
+        labels:
+          app: nginx
+          pod-template-hash: 86c46d7dc6
+      spec:
+        containers:
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: nginx
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: nginx-config
+          name: nginx-config
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: streamingapp
+      meta.helm.sh/release-namespace: streamingapp
+    creationTimestamp: "2026-07-17T21:14:03Z"
+    generation: 1
+    labels:
+      app: streaming-service
+      pod-template-hash: 86d97f65ff
+    name: streaming-service-86d97f65ff
+    namespace: streamingapp
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: streaming-service
+      uid: fc213120-d28b-4ada-9aa4-9568efa82ea7
+    resourceVersion: "57999"
+    uid: 4ca2b4b2-cad7-47f0-abe5-a08ed799aa68
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: streaming-service
+        pod-template-hash: 86d97f65ff
+    template:
+      metadata:
+        labels:
+          app: streaming-service
+          pod-template-hash: 86d97f65ff
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "3002"
+          envFrom:
+          - configMapRef:
+              name: streamingapp-config
+          - secretRef:
+              name: streamingapp-secret
+          image: 655383751644.dkr.ecr.ap-south-1.amazonaws.com/streamingapp-streaming:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3002
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: streaming-service
+          ports:
+          - containerPort: 3002
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/health
+              port: 3002
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
