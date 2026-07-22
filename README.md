@@ -77,28 +77,25 @@ The application is composed of five deployable components plus a database, all r
     StreamingApp/
       frontend/
         Dockerfile
-      auth-service/
+      backend/authService/
         Dockerfile
-      admin-service/
+      backend/adminService/
         Dockerfile
-      chat-service/
+      backend/chatService/
         Dockerfile
-      streaming-service/
+      backend/streamingService/
         Dockerfile
-      nginx/
-        nginx.conf
       helm/
         streaming-app/             Helm chart covering all services
           templates/
-            frontend-deployment.yaml
-            auth-deployment.yaml
-            admin-deployment.yaml
-            chat-deployment.yaml
-            streaming-deployment.yaml
-            mongodb-deployment.yaml
-            nginx-deployment.yaml
-      jenkins/
-        Jenkinsfile
+            frontend.yaml
+            auth.yaml
+            admin.yaml
+            chat.yaml
+            streaming.yaml
+            mongodb.yaml
+            nginx.yaml
+      Jenkinsfile
       lambda/
         telegram-notifier.py       CloudWatch/SNS to Telegram forwarder
       docs/
@@ -110,10 +107,6 @@ The application is composed of five deployable components plus a database, all r
 
   - The main repository was forked into a personal GitHub account.
   - The fork is kept in sync with the upstream repository through a configured upstream remote, allowing updates to be pulled in as needed.
-
-Screenshot 1: Forked Repository
-  GitHub repository showing the fork under the personal account, synced with upstream.
-![Forked Repository](screenshots/01-forked-repository.png)
 
 ## Step 2: Containerizing the Microservices
 
@@ -127,10 +120,6 @@ A separate Dockerfile was written for each independently deployable component of
 
 Each image was built and run locally with Docker to confirm correct behavior before being pushed to a registry.
 
-Screenshot 2: Docker Build - All Services
-  Terminal output showing the Frontend, Auth, Admin, Chat, and Streaming images building successfully.
-![Docker Build All Services](screenshots/02-docker-build-services.png)
-
 ### Pushing Images to Amazon ECR
 
   - A dedicated private ECR repository was created for each of the five services: frontend, auth-service, admin-service, chat-service, and streaming-service.
@@ -138,9 +127,11 @@ Screenshot 2: Docker Build - All Services
   - Each image was tagged with its corresponding ECR repository URI and pushed.
   - Image tags follow a consistent versioning scheme tied to the Git commit or Jenkins build number, so any running image can be traced back to its source commit.
 
-Screenshot 3: Amazon ECR Repositories
-  ECR console showing all five service repositories with pushed image tags.
-![ECR Repositories](screenshots/03-ecr-repositories.png)
+Screenshot 1: Amazon ECR Repositories
+  All five service repositories in Amazon ECR with pushed image tags.
+![Amazon ECR Repositories](screenshots/05-ecr-repositories.png)
+
+![Amazon ECR Repositories](screenshots/01-ecr-repositories-image-tag.png)
 
 ## Step 3: AWS Environment Setup
 
@@ -173,13 +164,13 @@ Verify Rollout
 Trigger
   A GitHub webhook triggers the pipeline automatically on new commits to the repository, so every push results in fresh images being built, pushed, and deployed.
 
-Screenshot 4: Jenkins Pipeline Configuration
-  Jenkins job configured with the GitHub webhook trigger and credentials.
-![Jenkins Pipeline Configuration](screenshots/04-jenkins-pipeline-config.png)
+Screenshot 2: Jenkins Dashboard
+  Jenkins dashboard showing the configured pipeline job.
+![Jenkins Dashboard](screenshots/03-jenkins-dashboard.png)
 
-Screenshot 5: Jenkins Pipeline Run
-  Successful pipeline run showing Checkout, Build, Push to ECR, Deploy via Helm, and Verify Rollout stages.
-![Jenkins Pipeline Run](screenshots/05-jenkins-pipeline-run.png)
+Screenshot 3: Successful Jenkins Pipeline
+  Completed pipeline run showing all stages passing, from Checkout through Verify Rollout.
+![Successful Jenkins Pipeline](screenshots/04-jenkins-success.png)
 
 ## Step 5: Kubernetes Deployment on Amazon EKS
 
@@ -196,18 +187,37 @@ Screenshot 5: Jenkins Pipeline Run
   - MongoDB runs as its own Deployment and Service within the cluster, backing all services that require persistent data.
   - NGINX is deployed as a reverse proxy and load balancer in front of the frontend and backend services, routing external traffic to the correct service based on path.
   - Horizontal Pod Autoscalers are configured on the backend services (Auth, Admin, Chat, and Streaming) so pod count scales independently with CPU or memory load per service.
+  - The rollout was verified using kubectl against pods, services, deployments, and replica sets, and the release itself was confirmed through Helm.
 
-Screenshot 6: EKS Cluster
+Screenshot 4: Amazon EKS Cluster
   EKS console showing the cluster and node group in an active state.
-![EKS Cluster](screenshots/06-eks-cluster.png)
+![Amazon EKS Cluster](screenshots/06-eks-cluster.png)
 
-Screenshot 7: Helm Deployment
-  Terminal output of helm upgrade --install completing successfully across all services.
-![Helm Deployment](screenshots/07-helm-deployment.png)
+Screenshot 5: kubectl get pods
+  All service pods running and in a ready state.
+![kubectl get pods](screenshots/07-kubectl-pods.png)
 
-Screenshot 8: Running Pods and Services
-  kubectl get pods and kubectl get svc output showing Frontend, Auth, Admin, Chat, Streaming, MongoDB, and NGINX all running.
-![Running Pods and Services](screenshots/08-pods-and-services.png)
+Screenshot 6: kubectl get svc
+  Service objects exposing the frontend, each backend service, MongoDB, and NGINX.
+![kubectl get svc](screenshots/08-kubectl-services.png)
+
+Screenshot 7: Load Balancer
+  AWS Load Balancer provisioned for the NGINX service, showing its DNS name and health check status.
+![Load Balancer](screenshots/load-balancer.png)
+
+![Load Balancer](screenshots/nginx.png)
+
+Screenshot 8: kubectl get deployments
+  Deployment objects for all seven components, showing desired and available replica counts.
+![kubectl get deployments](screenshots/09-kubectl-deployments.png)
+
+Screenshot 9: kubectl get nodes
+  All the nodes deployed for this cluster.
+![kubectl get rs](screenshots/10-kubectl-nodes.png)
+
+Screenshot 10: Helm List
+  Output of helm list showing the deployed release and its status.
+![Helm List](screenshots/11-helm-list.png)
 
 ## Step 6: Monitoring and Logging
 
@@ -216,13 +226,13 @@ Screenshot 8: Running Pods and Services
   - Fluent Bit is deployed as a DaemonSet on the cluster to forward logs from every service to CloudWatch Logs, giving a centralized, per-service view of application logs.
   - CloudWatch Alarms are configured against key metrics, such as high CPU utilization, memory pressure, and pod restart counts, for each service.
 
-Screenshot 9: CloudWatch Container Insights
+Screenshot 11: CloudWatch Container Insights
   CloudWatch dashboard showing cluster and per-service pod-level metrics via the Observability Add-on.
-![CloudWatch Container Insights](screenshots/09-cloudwatch-insights.png)
+![CloudWatch Container Insights](screenshots/13-cloudwatch-insights.png)
 
-Screenshot 10: CloudWatch Logs
-  Centralized logs from all services in CloudWatch Logs, collected via Fluent Bit.
-![CloudWatch Logs](screenshots/10-cloudwatch-logs.png)
+Screenshot 12: CloudWatch Log Groups
+  Log groups in CloudWatch Logs, populated by Fluent Bit with logs from each service.
+![CloudWatch Log Groups](screenshots/14-cloudwatch-log-groups.png)
 
 ## Step 7: Documentation
 
@@ -236,13 +246,9 @@ Screenshot 10: CloudWatch Logs
   - Auth, Admin, Chat, and Streaming service endpoints were verified independently through the frontend and directly via their exposed routes.
   - Load was generated against individual backend services to confirm their Horizontal Pod Autoscalers scale pod count up and back down independently.
 
-Screenshot 11: Application in Browser
-  Frontend loaded in a browser through the NGINX endpoint, communicating with the backend services.
-![Application in Browser](screenshots/11-application-browser.png)
-
-Screenshot 12: Horizontal Pod Autoscaler
-  HPA status showing pod counts scaling independently across the backend services under load.
-![Horizontal Pod Autoscaler](screenshots/12-hpa-scaling.png)
+Screenshot 13: Application Home Page
+  Frontend home page loaded in a browser through the NGINX endpoint.
+![Application Home Page](screenshots/12-application.png)
 
 ## Step 9 (Bonus): ChatOps Integration
 
@@ -254,17 +260,21 @@ The alerting pipeline forwards infrastructure alarms to a Telegram channel in ne
   - The SNS topic invokes a Lambda function, which formats the alarm payload into a readable message.
   - The Lambda function calls the Telegram Bot API to deliver the alert directly to a configured Telegram chat, giving the team real-time visibility into cluster health without needing to check the AWS console.
 
-Screenshot 13: CloudWatch Alarm and SNS Topic
-  CloudWatch Alarm configuration and its associated SNS topic.
-![CloudWatch Alarm and SNS Topic](screenshots/13-cloudwatch-alarm-sns.png)
+Screenshot 14: CloudWatch Alarm
+  CloudWatch Alarm configured against a monitored metric threshold.
+![CloudWatch Alarm](screenshots/16-cloudwatch-alarm.png)
 
-Screenshot 14: Lambda Function
-  Lambda function code and configuration used to forward SNS messages to Telegram.
-![Lambda Function](screenshots/14-lambda-function.png)
+Screenshot 15: Amazon SNS Topic
+  SNS topic that receives the notification when the CloudWatch Alarm is triggered.
+![Amazon SNS Topic](screenshots/17-sns-topic.png)
 
-Screenshot 15: Telegram Alert
-  Deployment or alarm notification received in the Telegram chat.
-![Telegram Alert](screenshots/15-telegram-alert.png)
+Screenshot 16: AWS Lambda Function
+  Lambda function configuration used to forward SNS messages to Telegram.
+![AWS Lambda Function](screenshots/18-lambda.png)
+
+Screenshot 17: Telegram Alert
+  Alarm notification received in the Telegram chat.
+![Telegram Alert](screenshots/19-telegram-alert.png)
 
 ## Environment Variables and Secrets
 
@@ -280,9 +290,8 @@ Secrets are managed through Jenkins Credentials Manager and Kubernetes Secrets, 
 ## Submission
 
   - Forked repository: https://github.com/akashagarwal99-oss/StreamingApp
-  - Jenkinsfile: jenkins/Jenkinsfile
+  - Jenkinsfile: Jenkinsfile
   - Helm chart: helm/streaming-app
   - Lambda function: lambda/telegram-notifier.py
   - Documentation: this README, with screenshots inline under each step
   - Screenshots: screenshots/ subdirectory
-
